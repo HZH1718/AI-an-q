@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="知问 AI 助教答疑平台学生登录入口">
+    <title>登录 | 知问 AI 助教答疑平台</title>
+    <link rel="stylesheet" href="../icon/iconfont.css">
+    <style>
+        :root {
+            --ink: #17322f;
+            --muted: #667b77;
+            --line: #dce6e2;
+            --surface: #ffffff;
+            --soft: #f2f7f5;
+            --brand: #0d6b60;
+            --brand-dark: #084b44;
+            --brand-soft: #dceee9;
+            --accent: #f07b5a;
+            --success: #16836f;
+            --danger: #c54f46;
+            --shadow: 0 24px 64px rgba(18, 62, 56, .14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            min-width: 320px;
+            background: #edf4f1;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 28px;
+            color: var(--ink);
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+            background-color: #edf4f1;
+            background-image:
+                linear-gradient(rgba(13, 107, 96, .045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(13, 107, 96, .045) 1px, transparent 1px);
+            background-size: 32px 32px;
+            display: grid;
+            place-items: center;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .auth-shell {
+            width: 100%;
+            max-width: 1160px;
+            min-height: 690px;
+            display: grid;
+            grid-template-columns: 1.06fr .94fr;
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(13, 107, 96, .12);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .showcase {
+            position: relative;
+            isolation: isolate;
+            min-height: 690px;
+            padding: 42px 48px 38px;
+            color: #ffffff;
+            background: var(--brand-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .showcase::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 74px),
+                linear-gradient(45deg, rgba(240, 123, 90, .16) 0 1px, transparent 1px 92px),
+                linear-gradient(145deg, var(--brand-dark) 0%, #0d5c54 58%, #146a60 100%);
+            background-size: 74px 74px, 92px 92px, auto;
+        }
+
+        .showcase::after {
+            content: "";
+            position: absolute;
+            top: -82px;
+            right: -62px;
+            width: 250px;
+            height: 250px;
+            z-index: -1;
+            border: 42px solid rgba(255, 255, 255, .08);
+            border-radius: 50%;
+        }
+
+        .brand {
+            width: fit-content;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255, 255, 255, .34);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .13);
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .brand-text {
+            display: grid;
+            gap: 3px;
+        }
+
+        .brand-text strong {
+            font-size: 18px;
+            line-height: 1.2;
+        }
+
+        .brand-text small {
+            color: rgba(255, 255, 255, .68);
+            font-size: 12px;
+        }
+
+        .showcase-copy {
+            margin-top: 63px;
+            max-width: 510px;
+        }
+
+        .online-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 12px;
+            color: #d8fff7;
+            font-size: 13px;
+            border: 1px solid rgba(192, 255, 242, .26);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .online-label::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #66e3c8;
+            box-shadow: 0 0 0 4px rgba(102, 227, 200, .14);
+        }
+
+        .showcase h1 {
+            margin-top: 22px;
+            font-size: 48px;
+            line-height: 1.22;
+            font-weight: 700;
+            letter-spacing: 0;
+        }
+
+        .showcase h1 span {
+            color: #ffb39c;
+        }
+
+        .showcase-intro {
+            max-width: 450px;
+            margin-top: 18px;
+            color: rgba(255, 255, 255, .76);
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .conversation {
+            width: min(100%, 480px);
+            margin-top: auto;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .095);
+            box-shadow: 0 20px 46px rgba(2, 37, 33, .22);
+            backdrop-filter: blur(10px);
+        }
+
+        .conversation-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 13px;
+            color: rgba(255, 255, 255, .64);
+            font-size: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, .12);
+        }
+
+        .conversation-head strong {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .question {
+            width: 84%;
+            margin: 16px 0 14px auto;
+            padding: 12px 14px;
+            color: #153b36;
+            font-size: 14px;
+            line-height: 1.65;
+            border-radius: 8px 8px 2px 8px;
+            background: #f9d9cd;
+        }
+
+        .answer {
+            display: grid;
+            grid-template-columns: 32px 1fr;
+            gap: 10px;
+            align-items: start;
+        }
+
+        .ai-avatar {
+            width: 32px;
+            height: 32px;
+            color: #0b544c;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            background: #b8efe2;
+            display: grid;
+            place-items: center;
+        }
+
+        .answer-content {
+            padding: 12px 14px;
+            color: rgba(255, 255, 255, .86);
+            font-size: 13px;
+            line-height: 1.7;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 8px;
+            background: rgba(2, 37, 33, .24);
+        }
+
+        .answer-content strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .answer-path {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            color: #b8efe2;
+            font-size: 12px;
+        }
+
+        .answer-path span {
+            width: 20px;
+            height: 1px;
+            background: rgba(184, 239, 226, .52);
+        }
+
+        .form-panel {
+            padding: 54px 64px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-heading {
+            margin-bottom: 30px;
+        }
+
+        .form-heading .eyebrow {
+            margin-bottom: 9px;
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-heading h2 {
+            font-size: 34px;
+            line-height: 1.3;
+            letter-spacing: 0;
+        }
+
+        .form-heading p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .demo-account {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 22px;
+            padding: 11px 13px;
+            color: #46615b;
+            font-size: 12px;
+            line-height: 1.55;
+            border: 1px solid #cce4dd;
+            border-radius: 8px;
+            background: #f1f8f6;
+        }
+
+        .demo-badge {
+            flex: 0 0 auto;
+            padding: 5px 8px;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            background: var(--brand);
+        }
+
+        .demo-account strong {
+            color: var(--brand-dark);
+            font-size: 12px;
+        }
+
+        .demo-account small {
+            display: block;
+            margin-top: 2px;
+            color: #718681;
+            font-size: 11px;
+        }
+
+        .form-message {
+            display: none;
+            margin: -8px 0 18px;
+            padding: 10px 12px;
+            color: #963e37;
+            font-size: 12px;
+            line-height: 1.6;
+            border: 1px solid rgba(197, 79, 70, .2);
+            border-radius: 8px;
+            background: #fff1ee;
+        }
+
+        .form-message.show {
+            display: block;
+        }
+
+        .fields {
+            border: 0;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .field > label {
+            display: block;
+            margin-bottom: 8px;
+            color: #29433f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .input-wrap {
+            position: relative;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fbfdfc;
+            transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+        }
+
+        .input-wrap:focus-within {
+            border-color: var(--brand);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(13, 107, 96, .12);
+        }
+
+        .field-icon {
+            width: 49px;
+            flex: 0 0 49px;
+            color: #718681;
+            text-align: center;
+            font-size: 17px;
+            line-height: 1;
+        }
+
+        .field-icon.iconfont {
+            font-size: 18px;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            min-width: 0;
+            height: 100%;
+            padding: 0 14px 0 0;
+            color: var(--ink);
+            font-size: 15px;
+            border: 0;
+            outline: 0;
+            background: transparent;
+        }
+
+        .input-wrap input::placeholder {
+            color: #98a8a4;
+        }
+
+        .password-field input {
+            padding-right: 72px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .password-toggle-label {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            z-index: 1;
+            padding: 5px 2px;
+            color: var(--brand);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transform: translateY(-50%);
+            user-select: none;
+        }
+
+        .password-toggle-label:hover {
+            color: var(--brand-dark);
+        }
+
+        .password-toggle:focus-visible ~ .password-field .password-toggle-label {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .toggle-hide {
+            display: none;
+        }
+
+        .password-toggle:checked ~ .password-field input {
+            -webkit-text-security: none;
+        }
+
+        .password-toggle:checked ~ .password-field .toggle-show {
+            display: none;
+        }
+
+        .password-toggle:checked ~ .password-field .toggle-hide {
+            display: inline;
+        }
+
+        .input-wrap:has(input:not(:placeholder-shown):valid) {
+            border-color: rgba(22, 131, 111, .58);
+        }
+
+        .input-wrap:has(input:not(:placeholder-shown):invalid) {
+            border-color: rgba(197, 79, 70, .68);
+        }
+
+        .field-help {
+            display: block;
+            min-height: 18px;
+            margin-top: 7px;
+            color: #7c8f8b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .field-help.valid {
+            color: var(--success);
+            opacity: 0;
+        }
+
+        .field:has(input:not(:placeholder-shown):valid) .field-help.valid {
+            opacity: 1;
+        }
+
+        .form-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 2px 0 24px;
+            font-size: 13px;
+        }
+
+        .remember {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: #506863;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .remember input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkmark {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            border: 1px solid #bdccc8;
+            border-radius: 5px;
+            background: #ffffff;
+            transition: border-color .2s ease, background-color .2s ease;
+        }
+
+        .remember input:checked + .checkmark {
+            border-color: var(--brand);
+            background: var(--brand);
+        }
+
+        .remember input:checked + .checkmark::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 9px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .remember input:focus-visible + .checkmark {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
+        }
+
+        .text-link {
+            color: var(--brand);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .text-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .submit-button {
+            position: relative;
+            width: 100%;
+            height: 52px;
+            padding: 0 58px 0 22px;
+            color: #ffffff;
+            font-weight: 700;
+            border: 0;
+            border-radius: 8px;
+            background: var(--brand);
+            box-shadow: 0 10px 22px rgba(13, 107, 96, .2);
+            cursor: pointer;
+            transition: background-color .2s ease, transform .15s ease, box-shadow .2s ease;
+        }
+
+        .submit-button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 23px;
+            width: 9px;
+            height: 9px;
+            border-top: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .submit-button:hover {
+            background: var(--brand-dark);
+            box-shadow: 0 12px 26px rgba(13, 107, 96, .25);
+            transform: translateY(-1px);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+
+        .submit-button:focus-visible {
+            outline: 3px solid rgba(240, 123, 90, .42);
+            outline-offset: 3px;
+        }
+
+        .request-account {
+            margin-top: 24px;
+            color: #70847f;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .security-note {
+            margin-top: 28px;
+            padding-top: 18px;
+            color: #8a9b97;
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: center;
+            border-top: 1px solid #e6eeeb;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @media (max-width: 920px) {
+            body {
+                padding: 18px;
+                align-items: start;
+            }
+
+            .auth-shell {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .showcase {
+                min-height: auto;
+                padding: 30px 34px 34px;
+            }
+
+            .showcase-copy {
+                max-width: 600px;
+                margin-top: 38px;
+            }
+
+            .showcase h1 {
+                font-size: 38px;
+            }
+
+            .conversation {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 44px 52px 40px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding: 0;
+                background-image: none;
+            }
+
+            .auth-shell {
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .showcase {
+                padding: 22px 22px 26px;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+            }
+
+            .showcase-copy {
+                margin-top: 24px;
+            }
+
+            .showcase h1 {
+                margin-top: 0;
+                font-size: 30px;
+                line-height: 1.25;
+            }
+
+            .online-label,
+            .showcase-intro {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 34px 22px 30px;
+            }
+
+            .form-heading {
+                margin-bottom: 25px;
+            }
+
+            .form-heading h2 {
+                font-size: 29px;
+            }
+
+            .form-options {
+                align-items: flex-start;
+            }
+
+            .security-note {
+                margin-top: 22px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="showcase" aria-labelledby="platform-title">
+            <a class="brand" href="#" aria-label="知问 AI 助教首页">
+                <span class="brand-mark" aria-hidden="true">
+                    <i class="iconfont icon-diannao1"></i>
+                </span>
+                <span class="brand-text">
+                    <strong>知问 AI 助教</strong>
+                    <small>智能答疑平台</small>
+                </span>
+            </a>
+
+            <div class="showcase-copy">
+                <div class="online-label">助教在线 · 随时可问</div>
+                <h1 id="platform-title">把卡住你的问题，<br><span>讲到真正会为止。</span></h1>
+                <p class="showcase-intro">
+                    连接课程知识库与 AI 助教，从概念梳理到解题步骤，陪你找到思路，而不是只给答案。
+                </p>
+            </div>
+
+            <div class="conversation" aria-label="AI 助教答疑示例">
+                <div class="conversation-head">
+                    <strong>正在解答 · 数据结构</strong>
+                    <span>课程知识库已匹配</span>
+                </div>
+                <p class="question">为什么快速排序最坏情况下是 O(n²)？</p>
+                <div class="answer">
+                    <span class="ai-avatar" aria-hidden="true">AI</span>
+                    <div class="answer-content">
+                        <strong>关键在基准值是否每次都划分失衡。</strong>
+                        当数组已排序且始终选首元素作基准时，每轮只会减少一个待排序元素，所以递归深度达到 n。
+                        <div class="answer-path"><span></span>换用随机基准，通常可避免这种最坏情况。</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="form-panel" aria-labelledby="login-title">
+            <header class="form-heading">
+                <p class="eyebrow">学生入口</p>
+                <h2 id="login-title">欢迎回来</h2>
+                <p>登录后查看课程答疑记录，继续你的学习进度。</p>
+            </header>
+
+            <div class="demo-account">
+                <span class="demo-badge">体验账号</span>
+                <span>
+                    <strong>student@zhiwen.edu</strong>
+                    <small>密码：Zhiwen1234 · 已默认填入</small>
+                </span>
+            </div>
+
+            <p class="form-message" id="login-message" role="alert" aria-live="polite"></p>
+
+            <form id="login-form" action="dashboard.html" method="post">
+                <fieldset class="fields">
+                    <legend class="sr-only">学生账号登录信息</legend>
+
+                    <div class="field">
+                        <label for="account">登录邮箱</label>
+                        <div class="input-wrap">
+                            <span class="field-icon" aria-hidden="true">@</span>
+                            <input
+                                id="account"
+                                name="account"
+                                type="email"
+                                placeholder="name@example.com"
+                                autocomplete="username"
+                                inputmode="email"
+                                spellcheck="false"
+                                value="student@zhiwen.edu"
+                                required
+                                aria-describedby="account-help"
+                            >
+                        </div>
+                        <small class="field-help" id="account-help">请输入已绑定学校账号的邮箱</small>
+                    </div>
+
+                    <input class="password-toggle" id="show-password" type="checkbox">
+
+                    <div class="field password-field">
+                        <label for="password">登录密码</label>
+                        <div class="input-wrap">
+                            <span class="field-icon" aria-hidden="true">◆</span>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="至少 8 位字符"
+                                autocomplete="current-password"
+                                minlength="8"
+                                maxlength="32"
+                                value="Zhiwen1234"
+                                required
+                                aria-describedby="password-help"
+                            >
+                            <label class="password-toggle-label" for="show-password">
+                                <span class="toggle-show">显示</span>
+                                <span class="toggle-hide">隐藏</span>
+                            </label>
+                        </div>
+                        <small class="field-help" id="password-help">密码区分大小写</small>
+                    </div>
+                </fieldset>
+
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox" name="remember" checked>
+                        <span class="checkmark" aria-hidden="true"></span>
+                        <span>保持登录状态</span>
+                    </label>
+                    <a class="text-link" href="#">忘记密码？</a>
+                </div>
+
+                <button class="submit-button" type="submit">登录平台</button>
+                <p class="request-account">还没有账号？<a class="text-link" href="register.html">申请学生账号</a></p>
+            </form>
+
+            <p class="security-note">登录即表示你同意平台服务条款与隐私政策<br>账号信息仅用于身份验证与学习记录同步</p>
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            var demoAccount = "student@zhiwen.edu";
+            var demoPassword = "Zhiwen1234";
+            var form = document.getElementById("login-form");
+            var accountInput = document.getElementById("account");
+            var passwordInput = document.getElementById("password");
+            var message = document.getElementById("login-message");
+
+            form.addEventListener("submit", function (event) {
+                var account = accountInput.value.trim().toLowerCase();
+
+                if (account === demoAccount && passwordInput.value === demoPassword) {
+                    event.preventDefault();
+                    window.location.assign("dashboard.html");
+                    return;
+                }
+
+                event.preventDefault();
+                accountInput.setAttribute("aria-invalid", "true");
+                passwordInput.setAttribute("aria-invalid", "true");
+                message.textContent = "账号或密码不正确，请使用上方体验账号登录。";
+                message.classList.add("show");
+            });
+        })();
+    </script>
+</body>
+</html>

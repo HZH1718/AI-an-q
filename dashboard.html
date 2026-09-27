@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="知问 AI 助教答疑工作台">
+    <title>答疑工作台 | 知问 AI 助教</title>
+    <link rel="stylesheet" href="../icon/iconfont.css">
+    <style>
+        :root {
+            --ink: #17322f;
+            --muted: #6b7f7b;
+            --line: #dce6e2;
+            --surface: #ffffff;
+            --soft: #f2f7f5;
+            --brand: #0d6b60;
+            --brand-dark: #084b44;
+            --brand-soft: #dceee9;
+            --accent: #f07b5a;
+            --accent-soft: #fff0eb;
+            --warning: #b47b25;
+            --warning-soft: #fff7e9;
+            --success: #16836f;
+            --shadow: 0 18px 42px rgba(18, 62, 56, .11);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            min-width: 320px;
+            background: var(--soft);
+        }
+
+        body {
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+            background: var(--soft);
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            min-height: 72px;
+            padding: 12px 26px;
+            display: grid;
+            grid-template-columns: 244px minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 24px;
+            background: rgba(255, 255, 255, .96);
+            border-bottom: 1px solid var(--line);
+            backdrop-filter: blur(14px);
+        }
+
+        .brand {
+            width: fit-content;
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            color: #ffffff;
+            border-radius: 8px;
+            background: var(--brand);
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+        }
+
+        .brand-text {
+            display: grid;
+            gap: 2px;
+        }
+
+        .brand-text strong {
+            font-size: 16px;
+            line-height: 1.2;
+        }
+
+        .brand-text small {
+            color: #80928e;
+            font-size: 11px;
+        }
+
+        .course-picker {
+            width: min(100%, 430px);
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .course-picker > span {
+            flex: 0 0 auto;
+            color: #84948f;
+            font-size: 12px;
+        }
+
+        .select-shell {
+            position: relative;
+            min-width: 0;
+            flex: 1 1 auto;
+            height: 42px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fbfdfc;
+        }
+
+        .select-shell::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            width: 7px;
+            height: 7px;
+            pointer-events: none;
+            border-right: 2px solid #718681;
+            border-bottom: 2px solid #718681;
+            transform: translateY(-70%) rotate(45deg);
+        }
+
+        .select-shell select {
+            width: 100%;
+            height: 100%;
+            padding: 0 42px 0 14px;
+            color: var(--ink);
+            font-size: 14px;
+            font-weight: 600;
+            border: 0;
+            outline: 0;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .select-shell:focus-within {
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(13, 107, 96, .12);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .online-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--success);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .online-status::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #25a889;
+            box-shadow: 0 0 0 4px rgba(37, 168, 137, .12);
+        }
+
+        .profile {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 8px;
+            background: var(--brand-dark);
+            display: grid;
+            place-items: center;
+        }
+
+        .profile-copy {
+            display: grid;
+            gap: 2px;
+        }
+
+        .profile-copy strong {
+            font-size: 13px;
+        }
+
+        .profile-copy small {
+            color: #83938f;
+            font-size: 11px;
+        }
+
+        .workspace {
+            width: 100%;
+            max-width: 1560px;
+            min-height: calc(100vh - 72px);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 248px minmax(460px, 1fr) 278px;
+        }
+
+        .sidebar,
+        .context-panel {
+            min-width: 0;
+            padding: 24px 20px;
+            background: rgba(255, 255, 255, .76);
+        }
+
+        .sidebar {
+            border-right: 1px solid var(--line);
+        }
+
+        .context-panel {
+            border-left: 1px solid var(--line);
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .panel-title h2,
+        .panel-title h3 {
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .panel-title span {
+            color: #93a39f;
+            font-size: 11px;
+        }
+
+        .new-question {
+            width: 100%;
+            height: 42px;
+            margin-bottom: 24px;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            border: 0;
+            border-radius: 8px;
+            background: var(--brand);
+            display: grid;
+            place-items: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .new-question:hover {
+            background: var(--brand-dark);
+        }
+
+        .new-question:focus-visible {
+            outline: 3px solid rgba(240, 123, 90, .42);
+            outline-offset: 3px;
+        }
+
+        .session-nav {
+            display: grid;
+            gap: 7px;
+        }
+
+        .session-link {
+            display: grid;
+            grid-template-columns: 28px minmax(0, 1fr);
+            align-items: center;
+            gap: 10px;
+            min-height: 44px;
+            padding: 8px 9px;
+            color: #526a65;
+            font-size: 13px;
+            line-height: 1.4;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .session-link:hover,
+        .session-link.active {
+            color: var(--brand-dark);
+            background: var(--brand-soft);
+        }
+
+        .session-icon {
+            width: 28px;
+            height: 28px;
+            color: var(--brand);
+            font-size: 13px;
+            font-weight: 700;
+            border: 1px solid rgba(13, 107, 96, .2);
+            border-radius: 7px;
+            background: #ffffff;
+            display: grid;
+            place-items: center;
+        }
+
+        .session-link span:last-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .study-progress {
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid var(--line);
+        }
+
+        .progress-copy {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            color: #6c7f7b;
+            font-size: 12px;
+        }
+
+        .progress-copy strong {
+            color: var(--brand);
+            font-size: 13px;
+        }
+
+        .progress-track {
+            height: 7px;
+            overflow: hidden;
+            border-radius: 999px;
+            background: #e3ece9;
+        }
+
+        .progress-value {
+            width: 68%;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, var(--brand), #3aa68f);
+        }
+
+        .qa-panel {
+            min-width: 0;
+            padding: 0 24px 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-header {
+            min-height: 74px;
+            padding: 17px 4px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .qa-title {
+            min-width: 0;
+        }
+
+        .qa-title h1 {
+            font-size: 19px;
+            line-height: 1.4;
+            letter-spacing: 0;
+        }
+
+        .qa-title p {
+            margin-top: 5px;
+            color: #7d908b;
+            font-size: 12px;
+        }
+
+        .course-tag {
+            flex: 0 0 auto;
+            padding: 7px 10px;
+            color: var(--warning);
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid #f0d4a8;
+            border-radius: 999px;
+            background: var(--warning-soft);
+        }
+
+        .qa-switch {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .chat-stream {
+            min-height: 520px;
+            flex: 1 1 auto;
+            padding: 24px 4px 18px;
+            overflow: auto;
+        }
+
+        .exchange {
+            display: none;
+        }
+
+        #qa-sort:checked ~ .chat-stream .exchange.qa-sort,
+        #qa-graph:checked ~ .chat-stream .exchange.qa-graph,
+        #qa-traverse:checked ~ .chat-stream .exchange.qa-traverse,
+        #qa-cycle:checked ~ .chat-stream .exchange.qa-cycle {
+            display: grid;
+            gap: 18px;
+        }
+
+        .message {
+            display: grid;
+            grid-template-columns: 38px minmax(0, 1fr);
+            gap: 11px;
+        }
+
+        .message.user {
+            width: min(100%, 680px);
+            margin-left: auto;
+            grid-template-columns: minmax(0, 1fr) 38px;
+        }
+
+        .message-avatar {
+            width: 38px;
+            height: 38px;
+            color: var(--brand-dark);
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            background: var(--brand-soft);
+            display: grid;
+            place-items: center;
+        }
+
+        .message.user .message-avatar {
+            grid-column: 2;
+            grid-row: 1;
+            color: #ffffff;
+            background: var(--brand);
+        }
+
+        .message-body {
+            max-width: 760px;
+        }
+
+        .message.user .message-body {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 7px;
+            color: #899b96;
+            font-size: 11px;
+        }
+
+        .message.user .message-meta {
+            justify-content: flex-end;
+        }
+
+        .message-meta strong {
+            color: #506863;
+            font-size: 12px;
+        }
+
+        .bubble {
+            padding: 14px 16px;
+            color: #344e49;
+            font-size: 14px;
+            line-height: 1.8;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: 0 8px 22px rgba(18, 62, 56, .055);
+        }
+
+        .message.user .bubble {
+            color: #ffffff;
+            border-color: var(--brand);
+            background: var(--brand);
+            box-shadow: none;
+        }
+
+        .bubble p + p,
+        .bubble p + ol,
+        .bubble p + ul,
+        .bubble ol + p,
+        .bubble ul + p {
+            margin-top: 11px;
+        }
+
+        .bubble ol,
+        .bubble ul {
+            padding-left: 20px;
+        }
+
+        .bubble li + li {
+            margin-top: 5px;
+        }
+
+        .answer-highlight {
+            display: block;
+            margin-bottom: 9px;
+            color: var(--brand-dark);
+            font-weight: 700;
+        }
+
+        .formula {
+            margin-top: 12px;
+            padding: 10px 12px;
+            color: #36504b;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 13px;
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            background: var(--accent-soft);
+        }
+
+        .question-dock {
+            padding-top: 17px;
+            border-top: 1px solid var(--line);
+        }
+
+        .dock-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #71847f;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .question-list {
+            display: flex;
+            gap: 9px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .question-chip {
+            flex: 0 0 auto;
+            min-height: 38px;
+            padding: 8px 12px;
+            color: #506863;
+            font-size: 12px;
+            line-height: 1.4;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+        }
+
+        .question-chip:hover {
+            color: var(--brand-dark);
+            border-color: #9ab8b1;
+        }
+
+        #qa-sort:checked ~ .question-dock label[for="qa-sort"],
+        #qa-graph:checked ~ .question-dock label[for="qa-graph"],
+        #qa-traverse:checked ~ .question-dock label[for="qa-traverse"],
+        #qa-cycle:checked ~ .question-dock label[for="qa-cycle"] {
+            color: var(--brand-dark);
+            border-color: var(--brand);
+            background: var(--brand-soft);
+        }
+
+        .resource-list {
+            display: grid;
+            gap: 11px;
+        }
+
+        .resource {
+            display: grid;
+            grid-template-columns: 36px minmax(0, 1fr);
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            color: inherit;
+            text-decoration: none;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .resource:hover {
+            border-color: #9ab8b1;
+        }
+
+        .resource-icon {
+            width: 36px;
+            height: 36px;
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 7px;
+            background: var(--brand-soft);
+            display: grid;
+            place-items: center;
+        }
+
+        .resource strong {
+            display: block;
+            color: #35504a;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .resource small {
+            display: block;
+            margin-top: 3px;
+            color: #90a09c;
+            font-size: 10px;
+        }
+
+        .context-section + .context-section {
+            margin-top: 27px;
+            padding-top: 24px;
+            border-top: 1px solid var(--line);
+        }
+
+        .goal-list {
+            display: grid;
+            gap: 11px;
+        }
+
+        .goal {
+            display: grid;
+            grid-template-columns: 18px minmax(0, 1fr);
+            gap: 9px;
+            color: #60746f;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .goal::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            margin-top: 3px;
+            border: 2px solid #a6b8b3;
+            border-radius: 50%;
+        }
+
+        .goal.done::before {
+            border-color: var(--success);
+            background:
+                linear-gradient(45deg, transparent 43%, #ffffff 43% 54%, transparent 54%) 2px 5px / 5px 5px no-repeat,
+                linear-gradient(135deg, transparent 42%, #ffffff 42% 55%, transparent 55%) 5px 2px / 7px 9px no-repeat,
+                var(--success);
+        }
+
+        .tip-box {
+            padding: 14px;
+            color: #7a5b2b;
+            font-size: 12px;
+            line-height: 1.7;
+            border: 1px solid #f0d4a8;
+            border-radius: 8px;
+            background: var(--warning-soft);
+        }
+
+        .tip-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #805719;
+        }
+
+        @media (max-width: 1120px) {
+            .workspace {
+                grid-template-columns: 224px minmax(440px, 1fr);
+            }
+
+            .context-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .topbar {
+                grid-template-columns: 1fr auto;
+                gap: 12px 20px;
+                padding: 12px 18px;
+            }
+
+            .course-picker {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                width: 100%;
+                max-width: none;
+            }
+
+            .online-status,
+            .profile-copy {
+                display: none;
+            }
+
+            .workspace {
+                min-height: calc(100vh - 126px);
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .qa-panel {
+                padding: 0 18px 20px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .topbar {
+                position: static;
+                padding: 11px 14px;
+            }
+
+            .brand-text small {
+                display: none;
+            }
+
+            .course-picker > span {
+                display: none;
+            }
+
+            .qa-panel {
+                padding: 0 14px 18px;
+            }
+
+            .qa-header {
+                min-height: 66px;
+                padding: 13px 0;
+            }
+
+            .qa-title h1 {
+                font-size: 17px;
+            }
+
+            .course-tag {
+                display: none;
+            }
+
+            .chat-stream {
+                min-height: 450px;
+                padding: 20px 0 15px;
+            }
+
+            .message {
+                grid-template-columns: 32px minmax(0, 1fr);
+                gap: 9px;
+            }
+
+            .message.user {
+                grid-template-columns: minmax(0, 1fr) 32px;
+            }
+
+            .message-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 10px;
+            }
+
+            .bubble {
+                padding: 12px 13px;
+                font-size: 13px;
+            }
+
+            .question-dock {
+                padding-top: 14px;
+            }
+
+            .question-chip {
+                min-height: 36px;
+                padding: 7px 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="dashboard.html" aria-label="知问 AI 助教答疑工作台">
+            <span class="brand-mark" aria-hidden="true">
+                <i class="iconfont icon-diannao1"></i>
+            </span>
+            <span class="brand-text">
+                <strong>知问 AI 助教</strong>
+                <small>学生答疑工作台</small>
+            </span>
+        </a>
+
+        <label class="course-picker">
+            <span>当前课程</span>
+            <span class="select-shell">
+                <select name="course" aria-label="选择当前课程">
+                    <option selected>数据结构与算法</option>
+                    <option>高等数学</option>
+                    <option>大学英语</option>
+                    <option>程序设计基础</option>
+                </select>
+            </span>
+        </label>
+
+        <div class="top-actions">
+            <span class="online-status">AI 助教在线</span>
+            <a class="profile" href="login.html">
+                <span class="avatar" aria-hidden="true">演</span>
+                <span class="profile-copy">
+                    <strong>演示学生</strong>
+                    <small>student@zhiwen.edu</small>
+                </span>
+            </a>
+        </div>
+    </header>
+
+    <div class="workspace">
+        <aside class="sidebar">
+            <a class="new-question" href="#question-list">＋ 选择新问题</a>
+
+            <div class="panel-title">
+                <h2>最近问答</h2>
+                <span>今天</span>
+            </div>
+            <nav class="session-nav" aria-label="最近问答">
+                <a class="session-link active" href="dashboard.html">
+                    <span class="session-icon">排</span>
+                    <span>快速排序的最坏情况</span>
+                </a>
+                <a class="session-link" href="dashboard.html">
+                    <span class="session-icon">图</span>
+                    <span>邻接矩阵与邻接表</span>
+                </a>
+                <a class="session-link" href="dashboard.html">
+                    <span class="session-icon">树</span>
+                    <span>二叉树遍历方式</span>
+                </a>
+                <a class="session-link" href="dashboard.html">
+                    <span class="session-icon">链</span>
+                    <span>链表环检测思路</span>
+                </a>
+            </nav>
+
+            <div class="study-progress">
+                <div class="progress-copy">
+                    <span>本周学习进度</span>
+                    <strong>68%</strong>
+                </div>
+                <div class="progress-track" aria-label="本周学习进度 68%">
+                    <div class="progress-value"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="qa-panel">
+            <header class="qa-header">
+                <div class="qa-title">
+                    <h1>数据结构与算法答疑</h1>
+                    <p>选择下方问题，查看 AI 助教的讲解</p>
+                </div>
+                <span class="course-tag">第三章 · 排序与查找</span>
+            </header>
+
+            <section class="chat-stream" aria-label="问答内容">
+                <input class="qa-switch" id="qa-sort" type="radio" name="qa-topic" checked>
+                <input class="qa-switch" id="qa-graph" type="radio" name="qa-topic">
+                <input class="qa-switch" id="qa-traverse" type="radio" name="qa-topic">
+                <input class="qa-switch" id="qa-cycle" type="radio" name="qa-topic">
+
+                <article class="exchange qa-sort">
+                    <div class="message user">
+                        <div class="message-body">
+                            <div class="message-meta"><span>刚刚</span><strong>你</strong></div>
+                            <div class="bubble">快速排序什么情况下会退化成 O(n²)？</div>
+                        </div>
+                        <span class="message-avatar" aria-hidden="true">你</span>
+                    </div>
+                    <div class="message">
+                        <span class="message-avatar" aria-hidden="true">AI</span>
+                        <div class="message-body">
+                            <div class="message-meta"><strong>知问 AI 助教</strong><span>课程知识库</span></div>
+                            <div class="bubble">
+                                <span class="answer-highlight">核心原因是每一轮划分都极不平衡。</span>
+                                <p>如果数组已经有序，并且每次都选择第一个元素作为基准值，那么第一轮会将剩余的 n-1 个元素分到同一侧，下一轮又只减少一个元素。</p>
+                                <p>这时递归深度会接近 n，因此总比较次数接近：</p>
+                                <div class="formula">n + (n - 1) + ... + 1 = O(n²)</div>
+                                <p>使用随机基准值、三数取中法，通常可以避免这种固定模式带来的最坏情况。</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exchange qa-graph">
+                    <div class="message user">
+                        <div class="message-body">
+                            <div class="message-meta"><span>刚刚</span><strong>你</strong></div>
+                            <div class="bubble">图的存储应该选邻接矩阵还是邻接表？</div>
+                        </div>
+                        <span class="message-avatar" aria-hidden="true">你</span>
+                    </div>
+                    <div class="message">
+                        <span class="message-avatar" aria-hidden="true">AI</span>
+                        <div class="message-body">
+                            <div class="message-meta"><strong>知问 AI 助教</strong><span>课程知识库</span></div>
+                            <div class="bubble">
+                                <span class="answer-highlight">主要看图的稠密程度，以及需要频繁执行什么操作。</span>
+                                <ul>
+                                    <li>邻接矩阵适合顶点较少、边较多的稠密图，判断两个顶点是否相邻只需 O(1)。</li>
+                                    <li>邻接表适合边较少的稀疏图，存储空间通常为 O(V + E)。</li>
+                                    <li>如果需要遍历一个顶点的所有邻接点，邻接表通常更高效。</li>
+                                </ul>
+                                <p>课程练习中，社交网络、道路图一般更适合邻接表；顶点数量固定且连接密集的小图可以使用邻接矩阵。</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exchange qa-traverse">
+                    <div class="message user">
+                        <div class="message-body">
+                            <div class="message-meta"><span>刚刚</span><strong>你</strong></div>
+                            <div class="bubble">BFS 和 DFS 的区别是什么？</div>
+                        </div>
+                        <span class="message-avatar" aria-hidden="true">你</span>
+                    </div>
+                    <div class="message">
+                        <span class="message-avatar" aria-hidden="true">AI</span>
+                        <div class="message-body">
+                            <div class="message-meta"><strong>知问 AI 助教</strong><span>课程知识库</span></div>
+                            <div class="bubble">
+                                <span class="answer-highlight">BFS 按层扩展，DFS 沿一条路径深入后再回退。</span>
+                                <p>BFS 使用队列，适合寻找无权图中的最短路径；DFS 使用递归或栈，适合判断连通性、检测环以及遍历所有路径。</p>
+                                <p>在邻接表存储下，两者的时间复杂度通常都是 O(V + E)，区别主要在于访问顺序、辅助空间和适用场景。</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exchange qa-cycle">
+                    <div class="message user">
+                        <div class="message-body">
+                            <div class="message-meta"><span>刚刚</span><strong>你</strong></div>
+                            <div class="bubble">如何判断链表中是否存在环？</div>
+                        </div>
+                        <span class="message-avatar" aria-hidden="true">你</span>
+                    </div>
+                    <div class="message">
+                        <span class="message-avatar" aria-hidden="true">AI</span>
+                        <div class="message-body">
+                            <div class="message-meta"><strong>知问 AI 助教</strong><span>课程知识库</span></div>
+                            <div class="bubble">
+                                <span class="answer-highlight">可以使用快慢指针法。</span>
+                                <p>让慢指针每次移动一步，快指针每次移动两步。如果链表没有环，快指针会先到达末尾；如果存在环，快指针最终一定会在环内追上慢指针。</p>
+                                <p>这种方法只需要两个额外指针，时间复杂度为 O(n)，额外空间复杂度为 O(1)。</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+
+            <div class="question-dock">
+                <span class="dock-label">继续选择问题</span>
+                <div class="question-list" id="question-list">
+                    <label class="question-chip" for="qa-sort">快速排序最坏情况</label>
+                    <label class="question-chip" for="qa-graph">矩阵还是邻接表</label>
+                    <label class="question-chip" for="qa-traverse">BFS 与 DFS 区别</label>
+                    <label class="question-chip" for="qa-cycle">链表环检测</label>
+                </div>
+            </div>
+        </main>
+
+        <aside class="context-panel">
+            <div class="context-section">
+                <div class="panel-title">
+                    <h2>本课资料</h2>
+                    <span>第 3 章</span>
+                </div>
+                <div class="resource-list">
+                    <a class="resource" href="#">
+                        <span class="resource-icon">PDF</span>
+                        <span>
+                            <strong>排序算法讲义</strong>
+                            <small>12 页 · 课程资料</small>
+                        </span>
+                    </a>
+                    <a class="resource" href="#">
+                        <span class="resource-icon">图</span>
+                        <span>
+                            <strong>图的存储结构</strong>
+                            <small>知识卡片 · 8 分钟</small>
+                        </span>
+                    </a>
+                    <a class="resource" href="#">
+                        <span class="resource-icon">练</span>
+                        <span>
+                            <strong>遍历与环检测练习</strong>
+                            <small>5 道基础题</small>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="context-section">
+                <div class="panel-title">
+                    <h3>本节目标</h3>
+                </div>
+                <div class="goal-list">
+                    <div class="goal done">理解排序算法的时间复杂度</div>
+                    <div class="goal done">区分常见图的存储方式</div>
+                    <div class="goal">掌握 BFS 与 DFS 的使用场景</div>
+                </div>
+            </div>
+
+            <div class="context-section">
+                <div class="tip-box">
+                    <strong>学习提示</strong>
+                    先尝试用自己的话复述思路，再对照 AI 助教的解释，记忆会更牢固。
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

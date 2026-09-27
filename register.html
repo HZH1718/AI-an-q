@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="知问 AI 助教答疑平台学生账号注册">
+    <title>注册 | 知问 AI 助教答疑平台</title>
+    <link rel="stylesheet" href="../icon/iconfont.css">
+    <style>
+        :root {
+            --ink: #17322f;
+            --muted: #667b77;
+            --line: #dce6e2;
+            --surface: #ffffff;
+            --soft: #f2f7f5;
+            --brand: #0d6b60;
+            --brand-dark: #084b44;
+            --brand-soft: #dceee9;
+            --accent: #f07b5a;
+            --danger: #b9433b;
+            --danger-soft: #fff0ed;
+            --success: #16836f;
+            --shadow: 0 24px 64px rgba(18, 62, 56, .14);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            min-width: 320px;
+            background: #edf4f1;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 28px;
+            color: var(--ink);
+            font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans SC", Arial, sans-serif;
+            background-color: #edf4f1;
+            background-image:
+                linear-gradient(rgba(13, 107, 96, .045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(13, 107, 96, .045) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .auth-shell {
+            width: 100%;
+            max-width: 1220px;
+            min-height: 820px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 410px minmax(0, 1fr);
+            overflow: hidden;
+            background: var(--surface);
+            border: 1px solid rgba(13, 107, 96, .12);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .side-panel {
+            position: relative;
+            isolation: isolate;
+            min-height: 820px;
+            padding: 42px 40px 36px;
+            color: #ffffff;
+            background: var(--brand-dark);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .side-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, .08) 0 1px, transparent 1px 76px),
+                linear-gradient(45deg, rgba(240, 123, 90, .15) 0 1px, transparent 1px 96px),
+                linear-gradient(150deg, var(--brand-dark) 0%, #0d5c54 60%, #146a60 100%);
+            background-size: 76px 76px, 96px 96px, auto;
+        }
+
+        .side-panel::after {
+            content: "";
+            position: absolute;
+            right: -72px;
+            bottom: 62px;
+            width: 220px;
+            height: 220px;
+            z-index: -1;
+            border: 38px solid rgba(255, 255, 255, .075);
+            border-radius: 50%;
+        }
+
+        .brand {
+            width: fit-content;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255, 255, 255, .34);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .13);
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+        }
+
+        .brand-text {
+            display: grid;
+            gap: 3px;
+        }
+
+        .brand-text strong {
+            font-size: 18px;
+            line-height: 1.2;
+        }
+
+        .brand-text small {
+            color: rgba(255, 255, 255, .68);
+            font-size: 12px;
+        }
+
+        .side-copy {
+            margin-top: 70px;
+        }
+
+        .side-kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #c4f5ea;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .side-kicker::before {
+            content: "";
+            width: 24px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .side-copy h1 {
+            margin-top: 18px;
+            font-size: 40px;
+            line-height: 1.28;
+            letter-spacing: 0;
+        }
+
+        .side-copy h1 span {
+            color: #ffb39c;
+        }
+
+        .side-intro {
+            margin-top: 18px;
+            color: rgba(255, 255, 255, .72);
+            font-size: 14px;
+            line-height: 1.85;
+        }
+
+        .register-steps {
+            margin-top: 38px;
+            display: grid;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 34px 1fr;
+            gap: 12px;
+            padding: 17px 0;
+            border-top: 1px solid rgba(255, 255, 255, .13);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            color: #c4f5ea;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(196, 245, 234, .34);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+        }
+
+        .step strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .step p {
+            color: rgba(255, 255, 255, .62);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .side-note {
+            margin-top: auto;
+            padding: 16px 17px;
+            color: rgba(255, 255, 255, .72);
+            font-size: 12px;
+            line-height: 1.7;
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 8px;
+            background: rgba(2, 37, 33, .22);
+        }
+
+        .side-note strong {
+            color: #ffffff;
+        }
+
+        .form-panel {
+            padding: 48px 58px 44px;
+        }
+
+        .form-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 28px;
+            margin-bottom: 30px;
+        }
+
+        .form-heading .eyebrow {
+            margin-bottom: 8px;
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .form-heading h2 {
+            font-size: 33px;
+            line-height: 1.3;
+            letter-spacing: 0;
+        }
+
+        .form-heading p {
+            margin-top: 9px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .login-link {
+            flex: 0 0 auto;
+            margin-top: 3px;
+            color: var(--brand);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .form-alert {
+            display: none;
+            margin-bottom: 26px;
+            padding: 14px 15px;
+            color: #77332e;
+            border: 1px solid rgba(185, 67, 59, .2);
+            border-radius: 8px;
+            background: var(--danger-soft);
+        }
+
+        .form-alert:target {
+            display: grid;
+            grid-template-columns: 30px 1fr auto;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .alert-mark {
+            width: 28px;
+            height: 28px;
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 50%;
+            background: var(--danger);
+            display: grid;
+            place-items: center;
+        }
+
+        .alert-copy strong {
+            display: block;
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        .alert-copy span {
+            color: #965c56;
+            font-size: 12px;
+        }
+
+        .alert-link {
+            color: var(--danger);
+            font-size: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .alert-link:hover {
+            text-decoration: underline;
+        }
+
+        .registration-section {
+            min-width: 0;
+            border: 0;
+        }
+
+        .registration-section + .registration-section {
+            margin-top: 32px;
+            padding-top: 30px;
+            border-top: 1px solid #e6eeeb;
+        }
+
+        .registration-section legend {
+            width: 100%;
+            margin-bottom: 22px;
+            padding: 0;
+            color: var(--ink);
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .section-note {
+            margin-left: 9px;
+            color: #8b9c98;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px 18px;
+        }
+
+        .field {
+            min-width: 0;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field > label,
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #29433f;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .required-mark {
+            margin-left: 3px;
+            color: var(--danger);
+        }
+
+        .input-wrap {
+            position: relative;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fbfdfc;
+            transition: border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+        }
+
+        .input-wrap:focus-within {
+            border-color: var(--brand);
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(13, 107, 96, .12);
+        }
+
+        .field-icon {
+            width: 47px;
+            flex: 0 0 47px;
+            color: #718681;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .input-wrap input,
+        .input-wrap select {
+            width: 100%;
+            min-width: 0;
+            height: 100%;
+            padding: 0 14px 0 0;
+            color: var(--ink);
+            font-size: 14px;
+            border: 0;
+            outline: 0;
+            background: transparent;
+        }
+
+        .input-wrap select {
+            padding-right: 40px;
+            appearance: none;
+            cursor: pointer;
+            background-image:
+                linear-gradient(45deg, transparent 50%, #718681 50%),
+                linear-gradient(135deg, #718681 50%, transparent 50%);
+            background-position:
+                calc(100% - 18px) 21px,
+                calc(100% - 13px) 21px;
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+
+        .input-wrap input::placeholder {
+            color: #98a8a4;
+        }
+
+        .password-field input {
+            padding-right: 72px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+
+        .password-toggle-label {
+            position: absolute;
+            top: 50%;
+            right: 13px;
+            z-index: 1;
+            padding: 5px 2px;
+            color: var(--brand);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transform: translateY(-50%);
+            user-select: none;
+        }
+
+        .password-toggle-label:hover {
+            color: var(--brand-dark);
+        }
+
+        .password-toggle:focus-visible ~ .field-grid .password-toggle-label {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        .toggle-hide {
+            display: none;
+        }
+
+        .password-toggle:checked ~ .field-grid input[type="password"] {
+            -webkit-text-security: none;
+        }
+
+        .password-toggle:checked ~ .field-grid .toggle-show {
+            display: none;
+        }
+
+        .password-toggle:checked ~ .field-grid .toggle-hide {
+            display: inline;
+        }
+
+        .input-wrap select:invalid {
+            color: #98a8a4;
+        }
+
+        .input-wrap:has(input:not(:placeholder-shown):valid),
+        .input-wrap:has(select:valid) {
+            border-color: rgba(22, 131, 111, .58);
+        }
+
+        .input-wrap:has(input:not(:placeholder-shown):invalid) {
+            border-color: rgba(197, 79, 70, .58);
+        }
+
+        .field-help {
+            display: block;
+            min-height: 18px;
+            margin-top: 7px;
+            color: #7c8f8b;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .choice-group {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .choice {
+            position: relative;
+            min-width: 0;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice span {
+            min-height: 42px;
+            padding: 8px 10px;
+            color: #526a65;
+            font-size: 13px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fbfdfc;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: border-color .2s ease, color .2s ease, background-color .2s ease, box-shadow .2s ease;
+        }
+
+        .choice:hover span {
+            border-color: #9ab8b1;
+        }
+
+        .choice:has(input:checked) span {
+            color: var(--brand-dark);
+            border-color: var(--brand);
+            background: var(--brand-soft);
+        }
+
+        .choice:has(input:focus-visible) span {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
+        }
+
+        .interest-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .interest {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 43px;
+            padding: 9px 12px;
+            color: #526a65;
+            font-size: 13px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fbfdfc;
+            cursor: pointer;
+        }
+
+        .interest input {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 auto;
+            margin: 0;
+            accent-color: var(--brand);
+        }
+
+        .interest:has(input:checked) {
+            color: var(--brand-dark);
+            border-color: rgba(13, 107, 96, .55);
+            background: #f1f8f6;
+        }
+
+        .agreement {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 22px;
+            color: #657b76;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .agreement input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkmark {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            flex: 0 0 18px;
+            margin-top: 1px;
+            border: 1px solid #bdccc8;
+            border-radius: 5px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: border-color .2s ease, background-color .2s ease;
+        }
+
+        .agreement input:checked + .checkmark {
+            border-color: var(--brand);
+            background: var(--brand);
+        }
+
+        .agreement input:checked + .checkmark::after {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 9px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .agreement input:focus-visible + .checkmark {
+            outline: 2px solid var(--brand);
+            outline-offset: 3px;
+        }
+
+        .text-link {
+            color: var(--brand);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .text-link:hover {
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .form-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 118px;
+            gap: 12px;
+            margin-top: 26px;
+        }
+
+        .submit-button,
+        .reset-button {
+            height: 52px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color .2s ease, border-color .2s ease, transform .15s ease, box-shadow .2s ease;
+        }
+
+        .submit-button {
+            position: relative;
+            padding: 0 58px 0 22px;
+            color: #ffffff;
+            font-weight: 700;
+            border: 0;
+            background: var(--brand);
+            box-shadow: 0 10px 22px rgba(13, 107, 96, .2);
+        }
+
+        .submit-button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 23px;
+            width: 9px;
+            height: 9px;
+            border-top: 2px solid currentColor;
+            border-right: 2px solid currentColor;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .submit-button:hover {
+            background: var(--brand-dark);
+            box-shadow: 0 12px 26px rgba(13, 107, 96, .25);
+            transform: translateY(-1px);
+        }
+
+        .reset-button {
+            color: #48615c;
+            border: 1px solid var(--line);
+            background: #ffffff;
+        }
+
+        .reset-button:hover {
+            border-color: #9ab8b1;
+            background: var(--soft);
+        }
+
+        .submit-button:focus-visible,
+        .reset-button:focus-visible {
+            outline: 3px solid rgba(240, 123, 90, .42);
+            outline-offset: 3px;
+        }
+
+        .security-note {
+            margin-top: 26px;
+            padding-top: 18px;
+            color: #8a9b97;
+            font-size: 12px;
+            line-height: 1.65;
+            text-align: center;
+            border-top: 1px solid #e6eeeb;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @media (max-width: 980px) {
+            body {
+                padding: 18px;
+            }
+
+            .auth-shell {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .side-panel {
+                min-height: auto;
+                padding: 30px 34px 34px;
+            }
+
+            .side-copy {
+                max-width: 620px;
+                margin-top: 42px;
+            }
+
+            .side-copy h1 {
+                font-size: 36px;
+            }
+
+            .register-steps {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 16px;
+                margin-top: 30px;
+            }
+
+            .step {
+                grid-template-columns: 31px 1fr;
+                padding: 14px 0 0;
+            }
+
+            .step-number {
+                width: 27px;
+                height: 27px;
+            }
+
+            .side-note {
+                display: none;
+            }
+
+            .form-panel {
+                padding: 44px 46px 40px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 0;
+                background-image: none;
+            }
+
+            .auth-shell {
+                border: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            .side-panel {
+                padding: 22px 20px 26px;
+            }
+
+            .brand-mark {
+                width: 40px;
+                height: 40px;
+            }
+
+            .side-copy {
+                margin-top: 24px;
+            }
+
+            .side-kicker,
+            .side-intro,
+            .register-steps {
+                display: none;
+            }
+
+            .side-copy h1 {
+                margin-top: 0;
+                font-size: 29px;
+            }
+
+            .form-panel {
+                padding: 32px 20px 28px;
+            }
+
+            .form-heading {
+                margin-bottom: 26px;
+            }
+
+            .form-heading h2 {
+                font-size: 28px;
+            }
+
+            .login-link {
+                margin-top: 0;
+            }
+
+            .form-alert:target {
+                grid-template-columns: 30px 1fr;
+            }
+
+            .alert-link {
+                grid-column: 2;
+            }
+
+            .registration-section + .registration-section {
+                margin-top: 28px;
+                padding-top: 26px;
+            }
+
+            .field-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .choice-group {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .interest-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="auth-shell">
+        <aside class="side-panel" aria-labelledby="register-title">
+            <a class="brand" href="login.html" aria-label="返回知问 AI 助教登录页">
+                <span class="brand-mark" aria-hidden="true">
+                    <i class="iconfont icon-diannao1"></i>
+                </span>
+                <span class="brand-text">
+                    <strong>知问 AI 助教</strong>
+                    <small>智能答疑平台</small>
+                </span>
+            </a>
+
+            <div class="side-copy">
+                <p class="side-kicker">学生账号注册</p>
+                <h1 id="register-title">建立你的学习档案，<br><span>从第一次提问开始。</span></h1>
+                <p class="side-intro">填写常用邮箱和联系方式，以便同步课程答疑、学习记录与重要通知。</p>
+            </div>
+
+            <div class="register-steps" aria-label="注册步骤">
+                <div class="step">
+                    <span class="step-number">01</span>
+                    <div>
+                        <strong>验证邮箱</strong>
+                        <p>邮箱将作为登录账号</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">02</span>
+                    <div>
+                        <strong>设置密码</strong>
+                        <p>两次输入需要完全一致</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">03</span>
+                    <div>
+                        <strong>完善信息</strong>
+                        <p>便于提供课程化答疑</p>
+                    </div>
+                </div>
+            </div>
+
+            <p class="side-note"><strong>信息安全：</strong>手机号和所在地仅用于账号找回、课程匹配与必要的教学服务，不会公开展示。</p>
+        </aside>
+
+        <section class="form-panel" aria-labelledby="form-title">
+            <header class="form-heading">
+                <div>
+                    <p class="eyebrow">创建账号</p>
+                    <h2 id="form-title">加入知问</h2>
+                    <p>带有 <span class="required-mark">*</span> 的项目为必填项。</p>
+                </div>
+                <a class="login-link" href="login.html">已有账号？返回登录</a>
+            </header>
+
+            <!-- 纯 HTML/CSS 无法跨字段比较值；服务端校验失败后返回本页 #password-mismatch 即可显示提示。 -->
+            <div class="form-alert" id="password-mismatch" role="alert">
+                <span class="alert-mark" aria-hidden="true">!</span>
+                <span class="alert-copy">
+                    <strong>两次输入的密码不一致</strong>
+                    <span>请重新设置密码并再次确认。</span>
+                </span>
+                <a class="alert-link" href="#password">重新设置密码</a>
+            </div>
+
+            <form action="#" method="post">
+                <fieldset class="registration-section">
+                    <legend>账号与安全<span class="section-note">用于登录和找回账号</span></legend>
+
+                    <input class="password-toggle" id="show-password" type="checkbox">
+
+                    <div class="field-grid">
+                        <div class="field full">
+                            <label for="email">邮箱账号<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">@</span>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="name@example.com"
+                                    autocomplete="email"
+                                    inputmode="email"
+                                    spellcheck="false"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field password-field">
+                            <label for="password">设置密码<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">◆</span>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    placeholder="8-32 位字符"
+                                    autocomplete="new-password"
+                                    minlength="8"
+                                    maxlength="32"
+                                    required
+                                    aria-describedby="password-help"
+                                >
+                                <label class="password-toggle-label" for="show-password">
+                                    <span class="toggle-show">显示</span>
+                                    <span class="toggle-hide">隐藏</span>
+                                </label>
+                            </div>
+                            <small class="field-help" id="password-help">建议组合使用字母、数字和符号</small>
+                        </div>
+
+                        <div class="field password-field">
+                            <label for="password-confirm">再次输入密码<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">◆</span>
+                                <input
+                                    id="password-confirm"
+                                    name="password_confirm"
+                                    type="password"
+                                    placeholder="请再次输入密码"
+                                    autocomplete="new-password"
+                                    minlength="8"
+                                    maxlength="32"
+                                    required
+                                    aria-describedby="password-confirm-help"
+                                >
+                                <label class="password-toggle-label" for="show-password">
+                                    <span class="toggle-show">显示</span>
+                                    <span class="toggle-hide">隐藏</span>
+                                </label>
+                            </div>
+                            <small class="field-help" id="password-confirm-help">提交后由服务器核对两次密码</small>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="registration-section">
+                    <legend>基本信息<span class="section-note">帮助我们匹配所在地区的课程</span></legend>
+
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="phone">手机号码<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">+86</span>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    placeholder="13800000000"
+                                    autocomplete="tel"
+                                    inputmode="tel"
+                                    pattern="1[3-9][0-9]{9}"
+                                    title="请输入 11 位中国大陆手机号码"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="province">长期所在地<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">⌂</span>
+                                <select id="province" name="province" autocomplete="address-level1" required>
+                                    <option value="" selected disabled>请选择省份 / 地区</option>
+                                    <option value="beijing">北京市</option>
+                                    <option value="shanghai">上海市</option>
+                                    <option value="guangdong">广东省</option>
+                                    <option value="jiangsu">江苏省</option>
+                                    <option value="zhejiang">浙江省</option>
+                                    <option value="sichuan">四川省</option>
+                                    <option value="hubei">湖北省</option>
+                                    <option value="shandong">山东省</option>
+                                    <option value="henan">河南省</option>
+                                    <option value="other">其他地区</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="field full">
+                            <label for="city">城市 / 区县<span class="required-mark">*</span></label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">◎</span>
+                                <input
+                                    id="city"
+                                    name="city"
+                                    type="text"
+                                    placeholder="例如：杭州市西湖区"
+                                    autocomplete="address-level2"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field full">
+                            <span class="field-label">当前学习身份<span class="required-mark">*</span></span>
+                            <div class="choice-group">
+                                <label class="choice">
+                                    <input type="radio" name="identity" value="undergraduate" required>
+                                    <span>本科生</span>
+                                </label>
+                                <label class="choice">
+                                    <input type="radio" name="identity" value="postgraduate">
+                                    <span>研究生</span>
+                                </label>
+                                <label class="choice">
+                                    <input type="radio" name="identity" value="high-school">
+                                    <span>高中生</span>
+                                </label>
+                                <label class="choice">
+                                    <input type="radio" name="identity" value="other">
+                                    <span>其他学习者</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="school">学校 / 机构</label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">◇</span>
+                                <input
+                                    id="school"
+                                    name="school"
+                                    type="text"
+                                    placeholder="选填"
+                                    autocomplete="organization"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label for="enrollment-year">入学年份</label>
+                            <div class="input-wrap">
+                                <span class="field-icon" aria-hidden="true">#</span>
+                                <input
+                                    id="enrollment-year"
+                                    name="enrollment_year"
+                                    type="number"
+                                    placeholder="例如：2026"
+                                    min="1950"
+                                    max="2035"
+                                    step="1"
+                                    inputmode="numeric"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="field full">
+                            <span class="field-label">感兴趣的学习方向</span>
+                            <div class="interest-grid">
+                                <label class="interest">
+                                    <input type="checkbox" name="interests" value="math">
+                                    <span>高等数学与线性代数</span>
+                                </label>
+                                <label class="interest">
+                                    <input type="checkbox" name="interests" value="programming">
+                                    <span>程序设计基础</span>
+                                </label>
+                                <label class="interest">
+                                    <input type="checkbox" name="interests" value="data-structure">
+                                    <span>数据结构与算法</span>
+                                </label>
+                                <label class="interest">
+                                    <input type="checkbox" name="interests" value="language">
+                                    <span>大学英语与写作</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="agreement">
+                        <input id="agreement" type="checkbox" name="agreement" required>
+                        <label class="checkmark" for="agreement" aria-label="同意用户服务条款和隐私政策"></label>
+                        <span>我已阅读并同意<a class="text-link" href="#">用户服务条款</a>和<a class="text-link" href="#">隐私政策</a></span>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">
+                    <button class="submit-button" type="submit">创建学生账号</button>
+                    <button class="reset-button" type="reset">重新填写</button>
+                </div>
+            </form>
+
+            <p class="security-note">提交注册即表示你确认所填信息真实有效<br>密码一致性由服务端核验，失败后返回本页提示</p>
+        </section>
+    </main>
+</body>
+</html>
